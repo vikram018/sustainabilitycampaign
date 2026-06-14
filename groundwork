@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Groundwork — Everyday environmental action</title>
+<meta name="description" content="Groundwork is a community platform that turns everyday sustainable habits into visible, collective progress through campaigns, pledges, events and field notes." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#1B3328;
+    --moss:#41604A;
+    --sage:#B9CDB0;
+    --sage-tint:#E3ECDC;
+    --mist:#EDF0E6;
+    --paper:#FAF8F2;
+    --amber:#E8A33D;
+    --ink:#20241F;
+    --rule: rgba(27,51,40,0.12);
+    --text-muted:#5B6259;
+  }
+
+  /* === Reset & base === */
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+    color:var(--ink);
+    background:var(--mist);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{ display:block; }
+  a{ color:inherit; }
+  button{ font-family:inherit; }
+  ul{ list-style:none; }
+
+  .visually-hidden{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+  .skip-link{
+    position:absolute; left:-9999px; top:0; z-index:100;
+    background:var(--amber); color:var(--forest);
+    padding:0.6rem 1.2rem; font-weight:600; border-radius:0 0 8px 0;
+  }
+  .skip-link:focus{ left:0; }
+
+  :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; border-radius:4px; }
+
+  /* === Layout helpers === */
+  .container{ max-width:1180px; margin:0 auto; padding:0 24px; }
+  .section{ padding:clamp(60px,9vw,110px) 0; }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--moss);
+    display:inline-block;
+    margin-bottom:0.9rem;
+  }
+  h1,h2,h3{ font-family:'Fraunces', serif; color:var(--forest); line-height:1.12; font-weight:600; }
+  h2{ font-size:clamp(1.9rem,3.4vw,2.7rem); font-variation-settings:'opsz' 60; }
+  h3{ font-size:1.25rem; }
+  p.lead{ font-size:1.08rem; color:var(--text-muted); max-width:640px; margin-top:1rem; }
+
+  /* === Buttons === */
+  .btn{
+    font-family:'Work Sans', sans-serif; font-weight:500; font-size:0.95rem;
+    padding:0.85rem 1.7rem; border-radius:999px; border:1px solid transparent;
+    cursor:pointer; transition:transform .15s ease, background .2s ease, color .2s ease, border-color .2s ease, opacity .2s ease;
+    display:inline-flex; align-items:center; gap:0.55rem; text-decoration:none;
+  }
+  .btn-primary{ background:var(--amber); color:var(--forest); }
+  .btn-primary:hover{ transform:translateY(-2px); }
+  .btn-outline{ background:transparent; border-color:var(--forest); color:var(--forest); }
+  .btn-outline:hover{ background:var(--forest); color:var(--paper); }
+  .btn-outline-light{ background:transparent; border-color:rgba(250,248,242,0.45); color:var(--paper); }
+  .btn-outline-light:hover{ background:var(--paper); color:var(--forest); }
+  .btn[disabled]{ opacity:0.55; cursor:default; transform:none; }
+  .btn svg{ width:16px; height:16px; }
+
+  /* === Reveal-on-scroll === */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+
+  /* === Nav === */
+  .nav{
+    position:sticky; top:0; z-index:60;
+    background:rgba(237,240,230,0.86); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--rule);
+  }
+  .nav-inner{
+    max-width:1180px; margin:0 auto; padding:14px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo{ display:flex; align-items:center; gap:0.6rem; font-family:'Fraunces',serif; font-weight:600; font-size:1.2rem; text-decoration:none; }
+  .logo svg{ width:30px; height:30px; }
+  .nav-links{ display:flex; align-items:center; gap:1.9rem; }
+  .nav-links a{ font-size:0.92rem; text-decoration:none; transition:color .2s ease; }
+  .nav-links a:hover{ color:var(--moss); }
+  .nav-right{ display:flex; align-items:center; gap:1.4rem; }
+  .nav-toggle{
+    display:none; background:none; border:none; cursor:pointer; padding:0.4rem;
+    flex-direction:column; gap:5px;
+  }
+  .nav-toggle span{ display:block; width:22px; height:2px; background:var(--forest); border-radius:2px; }
+
+  /* === Hero === */
+  .hero{ position:relative; overflow:hidden; }
+  .hero-inner{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:4rem; align-items:center;
+    position:relative; z-index:2;
+  }
+  .ambient-shape{
+    position:absolute; border-radius:42% 58% 65% 35% / 45% 40% 60% 55%;
+    filter:blur(60px); z-index:1; pointer-events:none;
+  }
+  .ambient-shape.s1{ width:480px; height:480px; background:var(--sage); opacity:0.35; top:-180px; left:-160px; animation:driftA 50s linear infinite; }
+  .ambient-shape.s2{ width:360px; height:360px; background:var(--amber); opacity:0.16; bottom:-140px; right:-120px; animation:driftB 60s linear infinite; }
+  @keyframes driftA{ from{ transform:rotate(0deg) translate(0,0); } to{ transform:rotate(360deg) translate(20px,-10px); } }
+  @keyframes driftB{ from{ transform:rotate(0deg) translate(0,0); } to{ transform:rotate(-360deg) translate(-15px,15px); } }
+
+  .hero h1{ font-size:clamp(2.6rem,6vw,4.4rem); font-variation-settings:'opsz' 144; margin:0.6rem 0 1.2rem; }
+  .hero h1 .accent{ font-style:italic; color:var(--amber); font-weight:500; }
+  .hero p.lead{ font-size:1.15rem; }
+  .hero-ctas{ display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem; }
+
+  /* growth wall */
+  .wall-card{
+    background:var(--paper); border-radius:24px; padding:2rem;
+    position:relative; box-shadow:0 24px 60px -36px rgba(27,51,40,0.4);
+  }
+  .wall-tag{
+    position:absolute; top:-14px; right:22px; background:var(--amber); color:var(--forest);
+    font-family:'Space Mono', monospace; font-size:0.72rem; letter-spacing:0.06em;
+    padding:0.4rem 0.8rem; border-radius:6px; transform:rotate(-4deg);
+    box-shadow:0 6px 14px -8px rgba(0,0,0,0.35);
+  }
+  .growth-wall{
+    display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin-bottom:1.5rem;
+  }
+  .leaf-cell{ aspect-ratio:1; display:flex; align-items:center; justify-content:center; }
+  .leaf-cell svg{ width:78%; height:78%; transition:transform .3s ease; }
+  .leaf-cell .body{ stroke-width:1.4; }
+  .leaf-cell .vein{ stroke-width:1.4; }
+  .leaf-cell.empty .body{ fill:none; stroke:var(--sage); }
+  .leaf-cell.empty .vein{ stroke:var(--sage); opacity:0.7; }
+  .leaf-cell.filled .body{ fill:var(--moss); stroke:none; }
+  .leaf-cell.filled .vein{ stroke:var(--paper); opacity:0.45; }
+  .leaf-cell.filled.amber .body{ fill:var(--amber); }
+  .leaf-cell.sprout svg{ animation:sprout .6s ease; }
+  @keyframes sprout{ from{ transform:scale(0) rotate(-25deg); } to{ transform:scale(1) rotate(0deg); } }
+  .wall-counter strong{
+    font-family:'Fraunces', serif; font-size:1.9rem; color:var(--forest); display:block; margin-bottom:0.2rem;
+  }
+  .wall-counter span{ font-family:'Space Mono', monospace; font-size:0.85rem; color:var(--moss); }
+
+  /* === Mission === */
+  .mission{ background:var(--paper); }
+  .mission-inner{ max-width:760px; }
+  .stat-row{ display:flex; gap:3rem; flex-wrap:wrap; margin-top:2.6rem; }
+  .stat-item strong{ font-family:'Fraunces', serif; font-size:2.3rem; color:var(--forest); display:block; font-variation-settings:'opsz' 60; }
+  .stat-item span{ font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--moss); }
+
+  /* === Campaigns === */
+  .campaigns-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-top:2.6rem; }
+  .campaign-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:18px; padding:1.8rem;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .campaign-card:hover{ transform:translateY(-5px); box-shadow:0 18px 36px -28px rgba(27,51,40,0.5); }
+  .campaign-icon{ width:38px; height:38px; color:var(--moss); margin-bottom:1rem; }
+  .campaign-icon path{ stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .campaign-card h3{ margin-bottom:0.5rem; }
+  .campaign-card p{ font-size:0.95rem; color:var(--text-muted); margin-bottom:1.4rem; }
+  .progress-track{ height:6px; background:var(--rule); border-radius:999px; overflow:hidden; margin-bottom:0.5rem; }
+  .progress-fill{ height:100%; background:var(--moss); border-radius:999px; }
+  .progress-label{ display:flex; justify-content:space-between; font-family:'Space Mono', monospace; font-size:0.74rem; color:var(--moss); margin-bottom:1.2rem; }
+  .campaign-link{ display:inline-flex; align-items:center; gap:0.4rem; font-weight:500; font-size:0.9rem; text-decoration:none; color:var(--forest); }
+  .campaign-link svg{ width:14px; height:14px; transition:transform .2s ease; }
+  .campaign-link:hover svg{ transform:translateX(3px); }
+
+  /* === Ledger (dark) === */
+  .ledger{ background:var(--forest); color:var(--paper); }
+  .ledger .eyebrow{ color:var(--sage); }
+  .ledger h2{ color:var(--paper); }
+  .ledger p.lead{ color:var(--sage); }
+  .ledger-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0 2.5rem; margin-top:3rem; }
+  .ledger-item{ padding-top:1.6rem; border-top:1px solid rgba(250,248,242,0.18); padding-bottom:0.6rem; }
+  .ledger-item strong{
+    font-family:'Fraunces', serif; font-size:clamp(2rem,4vw,2.9rem); display:block; margin-bottom:0.4rem;
+    font-variation-settings:'opsz' 80;
+  }
+  .ledger-item span{ font-family:'Space Mono', monospace; font-size:0.74rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--sage); }
+  .ledger-row{ display:grid; grid-template-columns:subgrid; }
+
+  /* === Get involved === */
+  .get-involved{ background:var(--sage-tint); }
+  .gi-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:1.75rem; margin-top:2.6rem; align-items:start; }
+  .gi-card{ background:var(--paper); border-radius:20px; padding:2.2rem; }
+  .gi-card h3{ margin-bottom:0.5rem; font-size:1.4rem; }
+  .gi-card > p{ color:var(--text-muted); font-size:0.95rem; margin-bottom:1.6rem; }
+
+  .field{ display:flex; flex-direction:column; gap:0.45rem; margin-bottom:1.3rem; }
+  .field label{ font-family:'Space Mono', monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--moss); }
+  .field input{
+    font-family:'Work Sans', sans-serif; font-size:1rem; padding:0.78rem 1rem;
+    border:1px solid var(--rule); border-radius:10px; background:var(--mist); color:var(--ink);
+  }
+  .field input::placeholder{ color:#9aa39a; }
+
+  .pill-group{ display:flex; flex-wrap:wrap; gap:0.55rem; }
+  .pill{
+    font-family:'Space Mono', monospace; font-size:0.8rem; padding:0.55rem 1.05rem;
+    border-radius:999px; border:1px solid var(--rule); background:var(--mist); color:var(--ink);
+    cursor:pointer; transition:all .2s ease;
+  }
+  .pill.active{ background:var(--moss); border-color:var(--moss); color:var(--paper); }
+
+  .gi-submit{ margin-top:0.5rem; width:100%; justify-content:center; }
+
+  .form-success{ display:none; text-align:center; padding:1.5rem 0; }
+  .form-success.show{ display:block; }
+  .form-success svg{ width:34px; height:34px; margin:0 auto 1rem; color:var(--moss); }
+  .form-success p{ color:var(--text-muted); font-size:0.95rem; margin-bottom:1.4rem; }
+  .form-fields.hide{ display:none; }
+
+  .tab-group{ display:flex; gap:0.5rem; margin-bottom:1.3rem; }
+  .tab{
+    flex:1; font-family:'Space Mono', monospace; font-size:0.8rem; padding:0.65rem;
+    border:1px solid var(--rule); border-radius:999px; background:var(--mist); cursor:pointer;
+    text-transform:uppercase; letter-spacing:0.05em; transition:all .2s ease; text-align:center;
+  }
+  .tab.active{ background:var(--forest); color:var(--paper); border-color:var(--forest); }
+
+  .amount-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0.6rem; margin-bottom:1.3rem; }
+  .amount-btn{
+    font-family:'Fraunces', serif; font-size:1.15rem; font-weight:600; padding:0.85rem;
+    border:1px solid var(--rule); border-radius:12px; background:var(--mist); color:var(--forest);
+    cursor:pointer; transition:all .2s ease;
+  }
+  .amount-btn.active{ background:var(--amber); border-color:var(--amber); }
+  .amount-other{ display:none; }
+  .amount-other.show{ display:flex; }
+
+  /* === Events === */
+  .events-list{ margin-top:2.6rem; border-top:1px solid var(--rule); }
+  .event-row{
+    display:grid; grid-template-columns:110px 1fr; gap:2rem; padding:2.1rem 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .event-date .month{ font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--moss); }
+  .event-date .day{ font-family:'Fraunces', serif; font-size:2.6rem; color:var(--forest); line-height:1.05; font-variation-settings:'opsz' 60; }
+  .event-date .weekday{ font-family:'Space Mono', monospace; font-size:0.78rem; color:var(--text-muted); }
+  .event-content h3{ margin-bottom:0.35rem; }
+  .event-meta{ font-family:'Space Mono', monospace; font-size:0.8rem; color:var(--moss); margin-bottom:0.6rem; }
+  .event-content p{ color:var(--text-muted); font-size:0.95rem; margin-bottom:0.9rem; max-width:560px; }
+  .event-link{ display:inline-flex; align-items:center; gap:0.4rem; font-weight:500; font-size:0.9rem; text-decoration:none; color:var(--forest); }
+  .event-link svg{ width:14px; height:14px; transition:transform .2s ease; }
+  .event-link:hover svg{ transform:translateX(3px); }
+
+  /* === Journal === */
+  .journal-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem; margin-top:2.6rem; }
+  .journal-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:18px; padding:1.8rem;
+    display:flex; flex-direction:column; gap:0.85rem;
+  }
+  .journal-meta{ display:flex; justify-content:space-between; align-items:center; gap:0.6rem; font-family:'Space Mono', monospace; font-size:0.72rem; color:var(--moss); }
+  .journal-tag{ background:var(--sage-tint); padding:0.28rem 0.7rem; border-radius:999px; text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; }
+  .journal-card h3{ font-size:1.15rem; }
+  .journal-card p{ font-size:0.93rem; color:var(--text-muted); flex:1; }
+  .journal-link{ font-weight:500; font-size:0.9rem; text-decoration:none; color:var(--forest); display:inline-flex; align-items:center; gap:0.4rem; }
+  .journal-link svg{ width:14px; height:14px; transition:transform .2s ease; }
+  .journal-link:hover svg{ transform:translateX(3px); }
+
+  /* === Newsletter === */
+  .newsletter{ background:var(--forest); color:var(--paper); text-align:center; }
+  .newsletter h2{ color:var(--paper); }
+  .newsletter p.lead{ color:var(--sage); margin:1rem auto 2rem; }
+  .newsletter-form{ display:flex; gap:0.7rem; justify-content:center; max-width:480px; margin:0 auto; flex-wrap:wrap; }
+  .newsletter-form input{
+    flex:1; min-width:220px; font-family:'Work Sans', sans-serif; font-size:1rem;
+    padding:0.78rem 1.1rem; border-radius:999px; border:1px solid rgba(250,248,242,0.3);
+    background:rgba(250,248,242,0.06); color:var(--paper);
+  }
+  .newsletter-form input::placeholder{ color:rgba(250,248,242,0.5); }
+  .newsletter-msg{ font-family:'Space Mono', monospace; font-size:0.9rem; color:var(--amber); margin-top:1rem; display:none; }
+  .newsletter-msg.show{ display:block; }
+
+  /* === Footer === */
+  .footer{ background:var(--ink); color:var(--mist); }
+  .footer-inner{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:2.5rem; padding:4rem 0 2.5rem; }
+  .footer-brand .logo{ color:var(--mist); margin-bottom:0.9rem; }
+  .footer-brand .logo svg{ color:var(--sage); }
+  .footer-brand p{ color:var(--sage); font-size:0.92rem; max-width:280px; margin-bottom:1.4rem; }
+  .footer-social{ display:flex; gap:0.7rem; }
+  .footer-social a{
+    width:38px; height:38px; border:1px solid rgba(237,240,230,0.18); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; text-decoration:none; transition:all .2s ease;
+  }
+  .footer-social a svg{ width:17px; height:17px; }
+  .footer-social a:hover{ background:var(--amber); border-color:var(--amber); color:var(--ink); }
+  .footer-col h4{ font-family:'Space Mono', monospace; font-size:0.74rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--sage); margin-bottom:1.1rem; }
+  .footer-col a{ display:block; color:var(--mist); text-decoration:none; margin-bottom:0.65rem; opacity:0.88; font-size:0.93rem; transition:all .2s ease; }
+  .footer-col a:hover{ opacity:1; color:var(--amber); }
+  .footer-bottom{
+    border-top:1px solid rgba(237,240,230,0.12); padding:1.4rem 0;
+    font-family:'Space Mono', monospace; font-size:0.78rem; color:var(--sage);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.8rem;
+  }
+
+  /* === Responsive === */
+  @media (max-width:980px){
+    .hero-inner{ grid-template-columns:1fr; gap:3rem; }
+    .wall-card{ max-width:480px; }
+    .ledger-grid{ grid-template-columns:repeat(2,1fr); gap:0 2rem; }
+    .gi-grid{ grid-template-columns:1fr; }
+    .footer-inner{ grid-template-columns:1fr 1fr; }
+    .footer-brand{ grid-column:1 / -1; }
+    .nav-links{
+      display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column;
+      align-items:flex-start; gap:1rem; background:var(--paper); padding:1.5rem 24px 1.8rem;
+      border-bottom:1px solid var(--rule);
+    }
+    .nav-links.open{ display:flex; }
+    .nav-toggle{ display:flex; }
+  }
+  @media (max-width:640px){
+    .ledger-grid{ grid-template-columns:1fr; }
+    .footer-inner{ grid-template-columns:1fr; padding:3rem 0 2rem; }
+    .amount-grid{ grid-template-columns:repeat(2,1fr); }
+    .event-row{ grid-template-columns:64px 1fr; gap:1.1rem; }
+    .event-date .day{ font-size:1.9rem; }
+    .stat-row{ gap:2rem; }
+    .footer-bottom{ flex-direction:column; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .ambient-shape{ animation:none; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .leaf-cell.sprout svg{ animation:none; }
+    *{ scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo" aria-label="Groundwork home">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 21C7 21 3 16 3 11c0-4 2-8 9-8s9 4 9 8c0 5-4 10-9 10z" fill="var(--moss)"/>
+        <path d="M12 21V8" stroke="var(--paper)" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+      </svg>
+      Groundwork
+    </a>
+    <nav class="nav-links" id="nav-links" aria-label="Primary">
+      <a href="#mission">Mission</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#impact">The Ledger</a>
+      <a href="#get-involved">Get Involved</a>
+      <a href="#events">Events</a>
+      <a href="#journal">Field Notes</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#donate" class="btn btn-primary">Donate</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero section" id="top">
+    <div class="ambient-shape s1"></div>
+    <div class="ambient-shape s2"></div>
+    <div class="container hero-inner">
+      <div>
+        <span class="eyebrow">A platform for everyday action</span>
+        <h1>Small actions,<br>grown <span class="accent">together</span>.</h1>
+        <p class="lead">Groundwork turns ordinary choices — a planted seedling, a skipped car trip, a thing fixed instead of replaced — into a record of change your whole community can see and build on.</p>
+        <div class="hero-ctas">
+          <a href="#get-involved" class="btn btn-primary">
+            Make a pledge
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#campaigns" class="btn btn-outline">Browse campaigns</a>
+        </div>
+      </div>
+      <div class="wall-card reveal">
+        <div class="wall-tag">growing daily ↑</div>
+        <span class="eyebrow">The wall</span>
+        <div class="growth-wall" id="growth-wall" role="img" aria-label="A grid of leaves representing community pledges, most of them filled in"></div>
+        <div class="wall-counter">
+          <strong id="pledge-count">4,236</strong>
+          <span>pledges logged — new leaves sprout as they come in</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MISSION ============ -->
+  <section class="mission section" id="mission">
+    <div class="container">
+      <div class="mission-inner reveal">
+        <span class="eyebrow">Why Groundwork</span>
+        <h2>Change is made of small, repeatable things.</h2>
+        <p class="lead">Most environmental progress doesn't come from one big gesture. It comes from thousands of people choosing the slightly harder, slightly better option — again and again, in the same neighborhood, the same week. Groundwork exists to make those choices visible, so the people doing them know they're part of something larger, and the people watching know what to try next.</p>
+        <div class="stat-row">
+          <div class="stat-item">
+            <strong>4,236</strong>
+            <span>members logged in</span>
+          </div>
+          <div class="stat-item">
+            <strong>38</strong>
+            <span>active campaigns</span>
+          </div>
+          <div class="stat-item">
+            <strong>19</strong>
+            <span>neighborhoods</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAMPAIGNS ============ -->
+  <section class="campaigns section" id="campaigns">
+    <div class="container">
+      <div class="reveal">
+        <span class="eyebrow">Active campaigns</span>
+        <h2>Pick a thread. Pull it with others.</h2>
+        <p class="lead">Each campaign is a single, specific habit — easy to start, easy to track, and stronger with company.</p>
+      </div>
+      <div class="campaigns-grid">
+
+        <article class="campaign-card reveal">
+          <svg class="campaign-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10 2h4M10.5 2v3.2c0 .5-.25.95-.7 1.25C8.7 7.3 8 8.6 8 10v9.5A2.5 2.5 0 0010.5 22h3a2.5 2.5 0 002.5-2.5V10c0-1.4-.7-2.7-1.8-3.55-.45-.3-.7-.75-.7-1.25V2"/>
+            <path d="M8.5 13h7"/>
+          </svg>
+          <h3>Plastic-Free Block</h3>
+          <p>Cut single-use plastic out of one street at a time — refill stations, packaging swaps, and a shared shopping list.</p>
+          <div class="progress-track"><div class="progress-fill" style="width:68%"></div></div>
+          <div class="progress-label"><span>68% to goal</span><span>612 joined</span></div>
+          <a href="#get-involved" class="campaign-link">Join campaign
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="campaign-card reveal">
+          <svg class="campaign-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 22V12"/>
+            <path d="M12 12c-3.2 0-5.5-2.3-5.5-5.5 3.2 0 5.5 2.3 5.5 5.5z"/>
+            <path d="M12 12c3.2 0 5.5-2.3 5.5-5.5-3.2 0-5.5 2.3-5.5 5.5z"/>
+          </svg>
+          <h3>Pocket Forests</h3>
+          <p>Turn small unused plots into native tree groves. We handle the saplings, soil testing and permits.</p>
+          <div class="progress-track"><div class="progress-fill" style="width:42%"></div></div>
+          <div class="progress-label"><span>42% to goal</span><span>284 joined</span></div>
+          <a href="#get-involved" class="campaign-link">Join campaign
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="campaign-card reveal">
+          <svg class="campaign-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2.5a6 6 0 00-3.1 11.1c.4.25.6.7.6 1.2V16h5v-1.2c0-.5.2-.95.6-1.2A6 6 0 0012 2.5z"/>
+            <path d="M10 19h4M10.7 21.5h2.6"/>
+          </svg>
+          <h3>Power Down Hour</h3>
+          <p>One hour a week, lights and screens off across the neighborhood — and the habits tend to stick afterward.</p>
+          <div class="progress-track"><div class="progress-fill" style="width:81%"></div></div>
+          <div class="progress-label"><span>81% to goal</span><span>1,140 joined</span></div>
+          <a href="#get-involved" class="campaign-link">Join campaign
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="campaign-card reveal">
+          <svg class="campaign-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h13l-3-3"/>
+            <path d="M20 17H7l3 3"/>
+          </svg>
+          <h3>Second-Hand Season</h3>
+          <p>Swap, mend and thrift instead of buying new. Seasonal swap meets and a standing repair café.</p>
+          <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
+          <div class="progress-label"><span>55% to goal</span><span>503 joined</span></div>
+          <a href="#get-involved" class="campaign-link">Join campaign
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="campaign-card reveal">
+          <svg class="campaign-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2c-4 6-7 10-7 13a7 7 0 0014 0c0-3-3-7-7-13z"/>
+          </svg>
+          <h3>Clean Water Watch</h3>
+          <p>Volunteer water testing along local creeks and storm drains, mapped and shared with the city.</p>
+          <div class="progress-track"><div class="progress-fill" style="width:29%"></div></div>
+          <div class="progress-label"><span>29% to goal</span><span>97 joined</span></div>
+          <a href="#get-involved" class="campaign-link">Join campaign
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="campaign-card reveal">
+          <svg class="campaign-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 7h14l-1.4 12.2a1.5 1.5 0 01-1.5 1.3H7.9a1.5 1.5 0 01-1.5-1.3L5 7z"/>
+            <path d="M9 7V5.5A1.5 1.5 0 0110.5 4h3A1.5 1.5 0 0115 5.5V7"/>
+            <path d="M12 11c-1.8 1.2-1.8 3.6 0 4.8 1.8-1.2 1.8-3.6 0-4.8z"/>
+          </svg>
+          <h3>Compost Corners</h3>
+          <p>Shared compost points for households without yard space, collected weekly by volunteer routes.</p>
+          <div class="progress-track"><div class="progress-fill" style="width:73%"></div></div>
+          <div class="progress-label"><span>73% to goal</span><span>368 joined</span></div>
+          <a href="#get-involved" class="campaign-link">Join campaign
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEDGER / IMPACT ============ -->
+  <section class="ledger section" id="impact">
+    <div class="container">
+      <div class="reveal">
+        <span class="eyebrow">The ledger</span>
+        <h2>What's been logged so far.</h2>
+        <p class="lead">Every pledge, planting and pickup gets added to the same running total. Nothing here is rounded up.</p>
+      </div>
+      <div class="ledger-grid">
+        <div class="ledger-item reveal"><strong>4,236</strong><span>Community members</span></div>
+        <div class="ledger-item reveal"><strong>38</strong><span>Campaigns running</span></div>
+        <div class="ledger-item reveal"><strong>112.4 t</strong><span>CO₂e avoided (est.)</span></div>
+        <div class="ledger-item reveal"><strong>9,800</strong><span>Trees &amp; seedlings planted</span></div>
+        <div class="ledger-item reveal"><strong>26.5 t</strong><span>Waste diverted from landfill</span></div>
+        <div class="ledger-item reveal"><strong>312</strong><span>Community events held</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GET INVOLVED ============ -->
+  <section class="get-involved section" id="get-involved">
+    <div class="container">
+      <div class="reveal">
+        <span class="eyebrow">Get involved</span>
+        <h2>Add your name to the wall.</h2>
+        <p class="lead">Make a pledge to start something, or chip in to keep the campaigns running — both add directly to the ledger above.</p>
+      </div>
+      <div class="gi-grid">
+
+        <!-- Pledge form -->
+        <div class="gi-card reveal">
+          <h3>Make a pledge</h3>
+          <p>Tell us what you're starting — or already doing — and we'll add a leaf to the wall on your behalf.</p>
+          <form id="pledge-form">
+            <div class="form-fields" id="pledge-fields">
+              <div class="field">
+                <label for="pledge-name">Name</label>
+                <input type="text" id="pledge-name" name="name" placeholder="Your name" required>
+              </div>
+              <div class="field">
+                <label for="pledge-email">Email</label>
+                <input type="email" id="pledge-email" name="email" placeholder="you@example.com" required>
+              </div>
+              <div class="field">
+                <label>What are you working on?</label>
+                <div class="pill-group" id="pledge-pills">
+                  <button type="button" class="pill">Plastic-Free Block</button>
+                  <button type="button" class="pill">Pocket Forests</button>
+                  <button type="button" class="pill">Power Down Hour</button>
+                  <button type="button" class="pill">Second-Hand Season</button>
+                  <button type="button" class="pill">Clean Water Watch</button>
+                  <button type="button" class="pill">Compost Corners</button>
+                  <button type="button" class="pill">Something else</button>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary gi-submit">Add my pledge</button>
+            </div>
+            <div class="form-success" id="pledge-success">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22C7 22 3 17 3 12c0-4 2-8 9-8s9 4 9 8c0 5-4 10-9 10z" stroke="currentColor" stroke-width="1.4"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <h3>Pledge logged</h3>
+              <p>Your leaf just sprouted on the wall above — find it near the top. Thanks for adding to the count.</p>
+              <button type="button" class="btn btn-outline" id="pledge-reset">Make another pledge</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Donate -->
+        <div class="gi-card reveal" id="donate">
+          <h3>Fuel the groundwork</h3>
+          <p>Donations cover materials for plantings, cleanup supplies, and small grants for neighborhood organizers — nothing else.</p>
+          <div id="donate-fields">
+            <div class="tab-group" id="donate-tabs">
+              <button type="button" class="tab active" data-freq="one-time">One-time</button>
+              <button type="button" class="tab" data-freq="monthly">Monthly</button>
+            </div>
+            <div class="amount-grid" id="donate-amounts">
+              <button type="button" class="amount-btn">$5</button>
+              <button type="button" class="amount-btn active">$15</button>
+              <button type="button" class="amount-btn">$30</button>
+              <button type="button" class="amount-btn">$50</button>
+              <button type="button" class="amount-btn" data-other="true">Other</button>
+            </div>
+            <div class="field amount-other" id="amount-other-field">
+              <label for="custom-amount">Custom amount (USD)</label>
+              <input type="number" id="custom-amount" min="1" placeholder="Enter an amount">
+            </div>
+            <button type="button" class="btn btn-primary gi-submit" id="donate-submit">Give now</button>
+          </div>
+          <div class="form-success" id="donate-success">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22C7 22 3 17 3 12c0-4 2-8 9-8s9 4 9 8c0 5-4 10-9 10z" stroke="currentColor" stroke-width="1.4"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Thanks for chipping in</h3>
+            <p id="donate-success-text">Your gift has been logged and goes straight to campaign materials and organizer support.</p>
+            <button type="button" class="btn btn-outline" id="donate-reset">Give again</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EVENTS ============ -->
+  <section class="section" id="events">
+    <div class="container">
+      <div class="reveal">
+        <span class="eyebrow">Upcoming events</span>
+        <h2>Where the work happens next.</h2>
+        <p class="lead">All events are free, family-friendly, and need fewer hands than you'd think.</p>
+      </div>
+      <div class="events-list">
+
+        <div class="event-row reveal">
+          <div class="event-date">
+            <div class="month">Jun</div>
+            <div class="day">21</div>
+            <div class="weekday">Saturday</div>
+          </div>
+          <div class="event-content">
+            <h3>Riverside Cleanup &amp; Water Testing</h3>
+            <div class="event-meta">9:00 – 12:00 · Eastbank Park</div>
+            <p>Bring gloves if you have them — we'll have extras. Water-testing kits provided by Clean Water Watch volunteers.</p>
+            <a href="#" class="event-link">Reserve a spot
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="event-row reveal">
+          <div class="event-date">
+            <div class="month">Jul</div>
+            <div class="day">04</div>
+            <div class="weekday">Saturday</div>
+          </div>
+          <div class="event-content">
+            <h3>Pocket Forest Planting Day</h3>
+            <div class="event-meta">8:00 – 11:00 · Miller Lot</div>
+            <p>Planting 200 native saplings on the reclaimed lot. Tools and saplings provided — just bring water and sun protection.</p>
+            <a href="#" class="event-link">Reserve a spot
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="event-row reveal">
+          <div class="event-date">
+            <div class="month">Jul</div>
+            <div class="day">18</div>
+            <div class="weekday">Saturday</div>
+          </div>
+          <div class="event-content">
+            <h3>Repair Café</h3>
+            <div class="event-meta">13:00 – 17:00 · Community Hall</div>
+            <p>Free mending, soldering and small-appliance repair from volunteer fixers. Drop off in the morning, pick up by close.</p>
+            <a href="#" class="event-link">Reserve a spot
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="event-row reveal">
+          <div class="event-date">
+            <div class="month">Aug</div>
+            <div class="day">02</div>
+            <div class="weekday">Sunday</div>
+          </div>
+          <div class="event-content">
+            <h3>Power Down Hour Block Party</h3>
+            <div class="event-meta">20:00 – 21:00 · Oak Street</div>
+            <p>Lights off, candles and string lights on. Bring a dish to share — the whole street eats by lantern light.</p>
+            <a href="#" class="event-link">Reserve a spot
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JOURNAL / FIELD NOTES ============ -->
+  <section class="mission section" id="journal">
+    <div class="container">
+      <div class="reveal">
+        <span class="eyebrow">Field notes</span>
+        <h2>Notes from the work.</h2>
+        <p class="lead">Short updates from organizers and volunteers — what's working, what isn't, and what's next.</p>
+      </div>
+      <div class="journal-grid">
+
+        <article class="journal-card reveal">
+          <div class="journal-meta">
+            <span>Jun 09 · 2026</span>
+            <span class="journal-tag">Pocket Forests</span>
+          </div>
+          <h3>The first canopy is closing in</h3>
+          <p>Eighteen months after planting, the saplings on Miller Lot have grown tall enough to touch — and the ground beneath them is noticeably cooler. Here's what we measured.</p>
+          <a href="#" class="journal-link">Read entry
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="journal-card reveal">
+          <div class="journal-meta">
+            <span>May 28 · 2026</span>
+            <span class="journal-tag">Power Down Hour</span>
+          </div>
+          <h3>What a season of lights-out taught us</h3>
+          <p>We tracked usage across 40 households for twelve weeks. The biggest savings weren't from the hour itself — they came from habits people kept afterward.</p>
+          <a href="#" class="journal-link">Read entry
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="journal-card reveal">
+          <div class="journal-meta">
+            <span>May 12 · 2026</span>
+            <span class="journal-tag">Clean Water Watch</span>
+          </div>
+          <h3>Mapping the creek, block by block</h3>
+          <p>Early results from our first full season of volunteer water testing — including two spots worth a closer look from the city.</p>
+          <a href="#" class="journal-link">Read entry
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="journal-card reveal">
+          <div class="journal-meta">
+            <span>Apr 30 · 2026</span>
+            <span class="journal-tag">Second-Hand Season</span>
+          </div>
+          <h3>Why spring is the best time to swap, not shop</h3>
+          <p>Clear-out season means more on offer and less competition. A look at how the spring swap meets have grown since last year.</p>
+          <a href="#" class="journal-link">Read entry
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="newsletter section">
+    <div class="container">
+      <div class="reveal">
+        <h2>Get the next field note</h2>
+        <p class="lead">One email, roughly twice a month. Campaign updates, event dates, and the latest numbers from the ledger.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <label for="newsletter-email" class="visually-hidden">Email address</label>
+          <input type="email" id="newsletter-email" placeholder="you@example.com" required>
+          <button type="submit" class="btn btn-outline-light">Subscribe</button>
+        </form>
+        <p class="newsletter-msg" id="newsletter-msg">You're on the list — first note lands within two weeks.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="#top" class="logo">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 21C7 21 3 16 3 11c0-4 2-8 9-8s9 4 9 8c0 5-4 10-9 10z" fill="currentColor"/>
+          <path d="M12 21V8" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+        Groundwork
+      </a>
+      <p>A community platform for everyday environmental action — built one pledge at a time.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Email newsletter">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18v12H3z" stroke="currentColor" stroke-width="1.5"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#" aria-label="Updates feed">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4v3a13 13 0 0113 13h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 10v3a7 7 0 017 7h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="5.5" cy="18.5" r="1.5" fill="currentColor"/></svg>
+        </a>
+        <a href="#" aria-label="Community forum">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1.1-4.2A8 8 0 1121 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#mission">Mission</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#impact">The ledger</a>
+      <a href="#events">Events</a>
+      <a href="#journal">Field notes</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get involved</h4>
+      <a href="#get-involved">Make a pledge</a>
+      <a href="#donate">Donate</a>
+      <a href="#">Become an organizer</a>
+      <a href="#">Partner with us</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="#">hello@groundwork.example</a>
+      <a href="#">Press &amp; media</a>
+      <a href="#">Report an issue</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Groundwork. Built for the neighborhood, one pledge at a time.</span>
+    <span>Made with care, soil, and a little bit of code.</span>
+  </div>
+</footer>
+
+<script>
+  // ---------- Mobile nav ----------
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // ---------- Leaf icon markup ----------
+  function leafSVG(){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path class="body" d="M12 21C7 21 3 16 3 11c0-4 2-8 9-8s9 4 9 8c0 5-4 10-9 10z"/>
+      <path class="vein" d="M12 21V8" fill="none"/>
+    </svg>`;
+  }
+
+  // ---------- Growth wall ----------
+  const wall = document.getElementById('growth-wall');
+  const TOTAL_CELLS = 80;
+  const FILLED_START = 58;
+  let counterValue = 4236;
+
+  // shuffle indices so filled cells look organic
+  const order = Array.from({length: TOTAL_CELLS}, (_, i) => i);
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  const filledSet = new Set(order.slice(0, FILLED_START));
+
+  for (let i = 0; i < TOTAL_CELLS; i++) {
+    const cell = document.createElement('div');
+    const isFilled = filledSet.has(i);
+    cell.className = 'leaf-cell ' + (isFilled ? 'filled' : 'empty');
+    if (isFilled && Math.random() < 0.1) cell.classList.add('amber');
+    cell.innerHTML = leafSVG();
+    wall.appendChild(cell);
+  }
+
+  function addLeafToWall(){
+    const empties = Array.from(wall.querySelectorAll('.leaf-cell.empty'));
+    if (empties.length === 0) return;
+    const target = empties[Math.floor(Math.random() * empties.length)];
+    target.className = 'leaf-cell filled amber sprout';
+    setTimeout(() => target.classList.remove('sprout'), 700);
+  }
+
+  // ---------- Animated counter ----------
+  const counterEl = document.getElementById('pledge-count');
+  function renderCounter(){
+    counterEl.textContent = counterValue.toLocaleString('en-US');
+  }
+  function animateCounterTo(target){
+    const start = counterValue;
+    const duration = 900;
+    const startTime = performance.now();
+    function step(now){
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(start + (target - start) * eased);
+      counterEl.textContent = current.toLocaleString('en-US');
+      if (progress < 1) requestAnimationFrame(step);
+      else counterValue = target;
+    }
+    requestAnimationFrame(step);
+  }
+  // initial count-up from 0
+  counterValue = 0;
+  renderCounter();
+  window.addEventListener('DOMContentLoaded', () => animateCounterTo(4236));
+  if (document.readyState !== 'loading') animateCounterTo(4236);
+
+  // ---------- Scroll reveal ----------
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ---------- Pledge form ----------
+  const pledgePills = document.querySelectorAll('#pledge-pills .pill');
+  pledgePills.forEach(pill => {
+    pill.addEventListener('click', () => pill.classList.toggle('active'));
+  });
+
+  const pledgeForm = document.getElementById('pledge-form');
+  const pledgeFields = document.getElementById('pledge-fields');
+  const pledgeSuccess = document.getElementById('pledge-success');
+  pledgeForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    pledgeFields.classList.add('hide');
+    pledgeSuccess.classList.add('show');
+    addLeafToWall();
+    animateCounterTo(counterValue + 1);
+  });
+  document.getElementById('pledge-reset').addEventListener('click', () => {
+    pledgeFields.classList.remove('hide');
+    pledgeSuccess.classList.remove('show');
+    pledgeForm.reset();
+    pledgePills.forEach(p => p.classList.remove('active'));
+  });
+
+  // ---------- Donate ----------
+  const donateTabs = document.querySelectorAll('#donate-tabs .tab');
+  donateTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      donateTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  const amountBtns = document.querySelectorAll('#donate-amounts .amount-btn');
+  const otherField = document.getElementById('amount-other-field');
+  const customAmount = document.getElementById('custom-amount');
+  amountBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      amountBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (btn.dataset.other){
+        otherField.classList.add('show');
+        customAmount.focus();
+      } else {
+        otherField.classList.remove('show');
+      }
+    });
+  });
+
+  const donateFields = document.getElementById('donate-fields');
+  const donateSuccess = document.getElementById('donate-success');
+  const donateSuccessText = document.getElementById('donate-success-text');
+  document.getElementById('donate-submit').addEventListener('click', () => {
+    const activeAmount = document.querySelector('#donate-amounts .amount-btn.active');
+    const activeFreq = document.querySelector('#donate-tabs .tab.active').dataset.freq;
+    let amountLabel = activeAmount.textContent.trim();
+    if (activeAmount.dataset.other){
+      const val = customAmount.value;
+      amountLabel = val ? '$' + val : 'your';
+    }
+    const freqLabel = activeFreq === 'monthly' ? 'monthly' : 'one-time';
+    donateSuccessText.textContent = `Your ${amountLabel} ${freqLabel} gift has been logged. It goes straight to campaign materials and organizer support.`;
+    donateFields.style.display = 'none';
+    donateSuccess.classList.add('show');
+  });
+  document.getElementById('donate-reset').addEventListener('click', () => {
+    donateFields.style.display = '';
+    donateSuccess.classList.remove('show');
+  });
+
+  // ---------- Newsletter ----------
+  const newsletterForm = document.getElementById('newsletter-form');
+  const newsletterMsg = document.getElementById('newsletter-msg');
+  newsletterForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    newsletterForm.style.display = 'none';
+    newsletterMsg.classList.add('show');
+  });
+</script>
+</body>
+</html>
